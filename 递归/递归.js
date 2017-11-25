@@ -9,3 +9,18 @@ function numbers(n){
     return num;
 }
 console.log(numbers(0));
+//对象方式
+var obj1 = {
+    num : 5,
+    fac : function(x){
+        if(x === 1){
+            return 1;
+        }else{
+            return x * this.fac(x - 1);
+        }
+    }
+}
+var obj2 = {fac : obj1.fac};
+obj1 = {};
+// console.log(obj2.fac(4));
+obj2.fac(4);
