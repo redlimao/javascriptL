@@ -18,19 +18,18 @@
 //slice切割拷贝出一部分字符串
 //indexOf找出字符第一次出现的位置或者截取字符串中的子串
 var ARCHIVE = [
-    "born 20/09/2004: Doctor1 Hobbles the 2nd, Noog1",
-    "died 20/09/2004: Doctor2, Noog2",
-    "died 20/09/2004: Doctor3 Hobbles the 2nd, Noog3",
-    "born 20/09/2004: Doctor4 Hobbles the 2nd, Noog4"
+    "born 05/09/2004 (mother A): Doctor1 Hobbles the 2nd",
+    "died 30/10/2005 (mother B): Doctor2",
+    "died 10/01/2006 (mother C): Doctor3 Hobbles the 2nd"
 ]
 function findLivingCats(){
-    var livingCats = {"Spot":true};
+    var livingCats = {"Spot":catRecord("Spot",new Date(1997,2,5),"unknow")};
 
     function handleParagraph(paragraph){
         if(startsWith(paragraph,"born")){
-            addToSet(livingCats,catNames(paragraph));
+            addCats(livingCats,catNames(paragraph),extractDate(paragraph),extractMother(paragraph));
         }else if(startsWith(paragraph,"died")){
-            removeFromSet(livingCats,catNames(paragraph));
+            deadCats(livingCats,catNames(paragraph),extractDate(paragraph));
         }
     }
     //找出相关段落
@@ -42,18 +41,63 @@ function findLivingCats(){
         var colon = paragraph.indexOf(":");
         return paragraph.slice(colon + 2).split(",");
     }
+    //获取日期
+    function extractDate(paragraph){
+        function numberAt(start,length) {
+            return Number(paragraph.slice(start,start + length));
+        }
+        return new Date(numberAt(11,4),numberAt(8,2) - 1,numberAt(5,2));
+    }
+
+    //存储名字，出生日期，猫母亲的名字
+    function catRecord(name,birthdate,mother){
+        return {name:name,birth:birthdate,mother:mother};
+    }
+    function addCats(set,names,birthdate,mother){
+        for(var i = 0;i < names.length;i++){
+            set[names[i]] = catRecord(names[i],birthdate,mother);
+        }
+    }
+
+    function deadCats(set,names,deathdate){
+        for(var i = 0;i < names.length;i++){
+            set[names[i]].death = deathdate;
+        }
+    }
+    //提取母亲的名字
+    function extractMother(paragraph){
+        var start = paragraph.indexOf("(mother")+"(mother".length;
+        var end = paragraph.indexOf(")");
+        return paragraph.slice(start,end);
+    }
+
     //向集合添加或这删除名字
-    function addToSet(set,values){
-        for(var i = 0;i < values.length;i++){
-            set[values[i]] = true;
-            // console.log(values[i]);
+    // function addToSet(set,values){
+    //     for(var i = 0;i < values.length;i++){
+    //         set[values[i]] = true;
+    //         // console.log(values[i]);
+    //     }
+    // }
+    // function removeFromSet(set,values){
+    //     for(var i = 0;i < values.length;i++){
+    //         set[values[i]] = false;
+    //     }
+    // }
+
+    function catRecord(name,birthdate,mother){
+        return {name:name,birth:birthdate,mother:mother};
+    }
+    function addCats(set,names,birthdate,mother){
+        for(var i = 0;i < names.length;i++){
+            set[names[i]] = catRecord(names[i],birthdate,mother);
         }
     }
-    function removeFromSet(set,values){
-        for(var i = 0;i < values.length;i++){
-            set[values[i]] = false;
+    function deadCats(set,names,deathdate){
+        for(var i = 0;i < names.length;i++){
+            set[names[i]] = catRecord(names[i],deathdate)
         }
     }
+
 
     for(var mail = 0;mail < ARCHIVE.length; mail++){
         var paragraphs = ARCHIVE[mail].split("\n");
