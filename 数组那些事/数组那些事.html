@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>数组那些事</title>
+</head>
+<body>
+<h2>什么是API</h2>
+<p>js中对象提供的方法就叫作API</p>
+<strong>instanceof 检测一个对象</strong><br>
+<strong>Array.isArray 是否为数组</strong><br>
+<strong>toString 把数组转化为字符串</strong><br>
+<strong>valueOf 返回数组本身</strong><br>
+<strong>join 只用指定参数拼接数组为一个字符串</strong><br>
+<strong>push在数组末端添加 pop在数组最末端删除</strong><br>
+<strong>unshift 在数组最前面添加一个元素 shift在数组最前面删除一个元素</strong><br>
+<strong>reverse 数组反转</strong><br>
+<strong>sort 数组中元素排序</strong>
+
+<script type="text/javascript">
+	//检测一个对象是否是数组，用来对付复杂数据类型
+	//简单数据类型 typeof
+	var arr = [11,28,13];
+	var num = 123;
+	console.log(arr instanceof Array);	//true
+
+	//Array.isArray 判断参数是不是数组，返回布尔值
+	console.log(Array.isArray(arr)); //true
+	console.log(Array.isArray(num)); //false
+
+	//toString 把数组变为字符串
+	console.log(arr.toString()); //1,2,3
+
+	//valueOf() 返回数组本身
+	console.log(arr.valueOf());
+
+	//join 拼接字符串
+	console.log(arr.join("!"));
+
+	//push pop 添加和删除
+	arr.push("11");
+	console.log(arr);
+	console.log(arr.pop());
+
+	arr.unshift("222");
+	console.log(arr);
+	console.log(arr.shift());
+
+	//reverse 数组反转
+	console.log(arr.reverse());
+
+	//sort 数组排序 默认从小到大 按照首个字母的unicode编码排序
+	console.log(arr.sort());
+	console.log(arr === arr.sort());
+
+	arr.sort(function(a,b){
+		return b - a;
+		//a - b升序
+		//b - a降序
+	});
+	console.log(arr);
+	//sort底层原理
+	s
+	
+	
+</script>
+</body>
+</html>
